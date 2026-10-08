@@ -10,8 +10,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV DENO_INSTALL_ROOT=/usr/local
 ENV DENO_DIR=/opt/deno-cache
 
-ARG OPENNEURO_VERSION=5.6.0
-
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends ca-certificates && \
     cp /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.bak && \
@@ -46,7 +44,7 @@ RUN apt-get update -qq && \
 COPY --from=deno /deno /usr/local/bin/deno
 
 # Install an executable CLI rather than only adding a project dependency.
-RUN deno install --global --allow-all --name openneuro "jsr:@openneuro/cli@${OPENNEURO_VERSION}"
+RUN deno install --global --allow-all --name openneuro "jsr:@openneuro/cli"
 
 # DataLad and git-annex discover this special remote through PATH.
 RUN cat <<'EOF' > /usr/local/bin/git-annex-remote-openneuro
